@@ -7,21 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model animalTypes {
-  id    Int     @id(map: "animalTypes_pk") @default(autoincrement())
-  type  String  @unique
-  posts posts[]
-}
+
 
 model posts {
   id          Int         @id(map: "posts_pk") @default(autoincrement())
   userId      Int
   animalName  String
-  animalType  Int
+  animalType  String
+  animalAge   Int
   description String
   image       String
   users       users       @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "posts_fk0")
-  animalTypes animalTypes @relation(fields: [animalType], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "posts_fk1")
 }
 
 model users {
