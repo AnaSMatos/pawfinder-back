@@ -11,8 +11,8 @@ async function getPostsByRegion(id: number){
 
 async function getPostsByRegionAndType(id: number, type){
     const user = await getUserById(id);
-    const country = user[0].country
-    const region = user[0].region
+    const country = user.country
+    const region = user.region
     const posts = getPostsWithType(country, region, type)
     return posts;   
 }
