@@ -1,4 +1,4 @@
-import { insertUser, getUserByEmail, UserInfo } from "../repositories/usersRepository.js";
+import { insertUser, getUserByEmail, UserInfo, LogIn } from "../repositories/usersRepository.js";
 import { generateToken } from "../utils/token.js";
 import bcrypt from "bcrypt"
 import dotenv from "dotenv";
@@ -21,9 +21,33 @@ async function createUser(data:UserInfo){
     await insertUser({name, email, age, country, region, password: encryptedPassword})
 }
 
+async function findUser(data: LogIn){
+    const {email, password} = data
+    const user = await getUserByEmail(email)
+
+    if(user.length === 0){
+        throw{
+            type: "notFound",
+            message: "This user is not registered"
+        }
+    }
+
+    const checkPassword = bcrypt.compareSync(password, user[0].password)
+    if(!checkPassword){
+        throw{
+            type: "unauthorized",
+            message: "Wrong password"
+        }
+    }
+
+    const token = generateToken(user[0].id)
+    return token;
+}
+
 
 const userServices = {
-    createUser
+    createUser,
+    findUser
 }
 
 export default userServices;
