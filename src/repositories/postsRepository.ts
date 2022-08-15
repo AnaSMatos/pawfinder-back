@@ -15,6 +15,7 @@ export async function getPosts(country: string, region:string){
         FROM posts
         JOIN users ON posts."userId" = users.id
         WHERE country = ${country} AND region = ${region}
+        ORDER BY id DESC
     `
 
     return posts
@@ -26,6 +27,7 @@ export async function getPostsWithType(country: string, region: string, type){
         FROM posts
         JOIN users ON posts."userId" = users.id
         WHERE country = ${country} AND region = ${region} AND "animalType" = ${type}
+        ORDER BY id DESC
     `
 
     return posts

@@ -28,3 +28,12 @@ export async function newPost(req: Request, res: Response){
 
     res.sendStatus(201)
 }
+
+export async function adopt(req: Request, res: Response) {
+    const recipientId = Number(req.params.id)
+    const token = req.headers.authorization
+
+    const emails = await postsServices.getEmail(recipientId)
+
+    res.send(emails).status(200)
+}

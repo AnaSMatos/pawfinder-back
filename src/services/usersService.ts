@@ -9,7 +9,7 @@ async function createUser(data:UserInfo){
     const {name, email, age, country, region, password} = data;
 
     const emailExists = await getUserByEmail(email);
-    if(emailExists.length > 0){
+    if(emailExists){
         throw{
             type: "conflict",
             message: "The email is already registered"
@@ -25,14 +25,14 @@ async function findUser(data: LogIn){
     const {email, password} = data
     const user = await getUserByEmail(email)
 
-    if(user.length === 0){
+    if(!user){
         throw{
             type: "notFound",
             message: "This user is not registered"
         }
     }
 
-    const checkPassword = bcrypt.compareSync(password, user[0].password)
+    const checkPassword = bcrypt.compareSync(password, user.password)
     if(!checkPassword){
         throw{
             type: "unauthorized",
@@ -40,7 +40,7 @@ async function findUser(data: LogIn){
         }
     }
 
-    const token = generateToken(user[0].id)
+    const token = generateToken(user.id)
     return token;
 }
 

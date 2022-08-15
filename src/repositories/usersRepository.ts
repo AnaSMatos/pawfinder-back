@@ -7,7 +7,8 @@ export interface User {
     age: number,
     country: string,
     region: string,
-    password: string
+    password: string,
+    confirmPassword: string
 }
 
 export interface LogIn{
@@ -15,7 +16,7 @@ export interface LogIn{
     password: string
 }
 
-export type UserInfo = Omit<User, "id">
+export type UserInfo = Omit<User, "id" | "confirmPassword">
 
 
 export async function insertUser(userData: UserInfo){
@@ -29,13 +30,13 @@ export async function insertUser(userData: UserInfo){
 }
 
 export async function getUserByEmail(email: string){
-    const user = await prisma.users.findMany({where: {email}})
-
+    const user = await prisma.users.findUnique({where: {email}})
+    
     return user
 }
 
 export async function getUserById(id: number){
-    const user = await prisma.users.findMany({where: {id}})
+    const user = await prisma.users.findUnique({where: {id}})
 
     return user
 }
