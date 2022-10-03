@@ -3,13 +3,13 @@
   "type": "module",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "build": "tsc",
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
-    "start": "npm run prisma:deploy && node dist/src/server.js",
-    "dev": "nodemon src/server.ts"
+    "dev": "nodemon src/server.ts",
+    "start": "npm run prisma:deploy && node dist/src/server.js"
   },
   "keywords": [],
   "author": "",
